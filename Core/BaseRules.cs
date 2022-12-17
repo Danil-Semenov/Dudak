@@ -19,6 +19,8 @@ namespace Core
 
         public abstract IEnumerable<Card> GetDeck();
 
+        public abstract bool IsCanMove(IList<Player.Player> players, int whoBeatPlayerPos, int whoMovePlayerPos);
+
         public IEnumerable<Card> GetRandomCards(int count, Card[] deck)
         {
             var uniqueIndices = Randomizer.RandomNumbers(deck.Length).Distinct().Take(count);
@@ -31,9 +33,9 @@ namespace Core
             return deck.Take(count);
         }
 
-        public eFamily GetTrump()
+        public Card GetTrump(IEnumerable<Card> deck)
         {
-            return (eFamily)Randomizer.RandomInt(1, 4);
+            return deck.Last();
         }
 
         public IEnumerable<Card> RandomSort(Card[] data)

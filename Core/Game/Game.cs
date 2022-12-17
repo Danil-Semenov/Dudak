@@ -7,7 +7,7 @@ namespace Core.Game
     {
         public IEnumerable<Card> Cards { get; set; }
 
-        public eFamily Trump { get; set; }
+        public Card Trump { get; set; }
 
         public IEnumerable<Position> Positions { get; set; }
 

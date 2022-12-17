@@ -64,8 +64,9 @@ namespace Core
 
         public bool StartGame()
         {
-            Game.Trump = Rules.GetTrump();
+
             Game.Cards = Rules.GetDeck();
+            Game.Trump = Rules.GetTrump(Game.Cards);
             Game.Positions = new List<Position>(6);
             foreach(var player in Players)
             {
@@ -82,13 +83,16 @@ namespace Core
         public bool SetMove(Card card, string name) //Добавить проверку на то может ли игрок добавлять карты
         {
             var player = Players.FirstOrDefault(pl => pl.IsActive && pl.Name == name);
-            var pos = Game.Positions.FirstOrDefault(p=>p.WhoIsBeaten == null);
-            if (pos != null)
+            if (Rules.IsCanMove(Players, Game.IndexPlayerBeat.Value, player.PositionOnTable))
             {
-                pos.WhoIsBeaten = card;
-                player.CardsInHand.ToList().Remove(card);
-                Notify?.Invoke();
-                return true;
+                var pos = Game.Positions.FirstOrDefault(p => p.WhoIsBeaten == null);
+                if (pos != null)
+                {
+                    pos.WhoIsBeaten = card;
+                    player.CardsInHand.ToList().Remove(card);
+                    Notify?.Invoke();
+                    return true;
+                }
             }
             return false;
         }
@@ -97,7 +101,7 @@ namespace Core
         {
             var player = Players.FirstOrDefault(pl => pl.IsActive && pl.Name == name);
             var pos = Game.Positions.ToArray()[position];
-            if(pos.WhoBeats == null && Rules.IsCanBeat(pos.WhoIsBeaten, card, Game.Trump))
+            if(pos.WhoBeats == null && Rules.IsCanBeat(pos.WhoIsBeaten, card, Game.Trump.Family))
             {
                 pos.WhoBeats = card;
                 player.CardsInHand.ToList().Remove(card);
@@ -143,7 +147,7 @@ namespace Core
         // Событие что что-то поменялось + на уровне выше быдет подписчик на это событие который будет уведомлять всех что что-то поменялось.
         // Событие будет возвращать Game, а обработчик будет выдавать каждому игроку то что надо ему
         // Надо решить кому что надо
-        delegate Game.Game AccountHandler();
+        delegate void AccountHandler();
         event AccountHandler Notify;
 
         // Игрок берет карты + дерганье события

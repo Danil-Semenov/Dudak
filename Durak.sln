@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dudak", "Dudak\Dudak.csproj", "{7895DACC-6DE8-4D12-AF29-A0E9DF3EA4E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Durak", "Dudak\Durak.csproj", "{7895DACC-6DE8-4D12-AF29-A0E9DF3EA4E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{A8BD3626-2DA9-4819-A27A-58B0C115FBB6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{B50BAEE6-9475-4FC4-BD3C-0788D0E2B3EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{37005316-6888-48D5-8976-CB55CF5FDACD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DB", "DB\DB.csproj", "{37005316-6888-48D5-8976-CB55CF5FDACD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

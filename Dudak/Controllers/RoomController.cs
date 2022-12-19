@@ -1,5 +1,6 @@
 ﻿using Application.Interface;
 using DB.DTO;
+using Durak.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Durak.Controllers
 {
+    [BasicAuth]
     [ApiController]
     [Route("/api/v1/room")]
     public class RoomController : ControllerBase

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DB.DTO
+namespace DB.Entities
 {
-    public class UserDto
+    public class User
     {
         public int Id { get; set; }
-
         public string Login { get; set; }
 
         public string Password { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Application.Interface;
 using DB.DTO;
+using Durak.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -38,6 +39,7 @@ namespace Durak.Controllers
             }
         }
 
+        [BasicAuth]
         [HttpPut("{id}")]
         [Consumes("application/json")]
         [Produces("application/json")]

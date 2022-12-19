@@ -1,7 +1,13 @@
+using Application.Implementation;
+using Application.Interface;
+using DB;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +34,19 @@ namespace Durak
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddEntityFrameworkSqlServer();
+            services.AddDbContext<DurakDbContext>(
+                    options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRequestService, UserRequestService>();
+            services.AddScoped<IRoomRequestService, RoomRequestService>();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Game durak", Version = "v1" });
@@ -35,18 +54,18 @@ namespace Durak
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath, true);
 
-                // add Basic Authentication
-//                var basicSecurityScheme = new OpenApiSecurityScheme
-//                {
-//                    Type = SecuritySchemeType.Http,
-//                    Scheme = "basic",
-//                    Reference = new OpenApiReference { Id = "BasicAuth", Type = ReferenceType.SecurityScheme }
-//                };
-//                options.AddSecurityDefinition(basicSecurityScheme.Reference.Id, basicSecurityScheme);
-//                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-//{
-//{basicSecurityScheme, new string[] { }}
-//});
+                //add Basic Authentication
+                var basicSecurityScheme = new OpenApiSecurityScheme
+                {
+                   Type = SecuritySchemeType.Http,
+                   Scheme = "basic",
+                   Reference = new OpenApiReference { Id = "BasicAuth", Type = ReferenceType.SecurityScheme }
+                };
+                options.AddSecurityDefinition(basicSecurityScheme.Reference.Id, basicSecurityScheme);
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {basicSecurityScheme, new string[] { }}
+                });
             });
             services.AddControllers();
         }
@@ -69,7 +88,12 @@ namespace Durak
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.Use(next => context => {
+                context.Request.EnableBuffering();
+                return next(context);
+            });
 
             app.UseEndpoints(endpoints =>
             {

@@ -25,7 +25,7 @@ namespace DB.Schema
                 .IsUnicode(false);
 
             builder.HasKey(k=> k.Id);
-            builder.HasAlternateKey(k => k.Login);
+            //builder.HasAlternateKey(k => k.Login);
         }
     }
 }

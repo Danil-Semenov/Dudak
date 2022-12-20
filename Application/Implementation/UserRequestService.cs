@@ -13,14 +13,13 @@ namespace Application.Implementation
 {
     public class UserRequestService : IUserRequestService
     {
-        private IEnumerable<int> Guests { get; set; }
-
         private readonly DurakDbContext _context;
+
         public UserRequestService(DurakDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            Guests = new List<int>();
         }
+
         public async Task<bool> CreateProfileAsync(UserDto profile)
         {
             var NewProfile = new User()
@@ -36,9 +35,10 @@ namespace Application.Implementation
         public async Task<bool> EditProfileAsync(UserDto profile, int id)//Решить проблему что не обновляется, хотя возвращает ответ 200
         {
             var editProfile = await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == id);
+            _context.Users.Update(editProfile);
             editProfile.Login = profile.Login;
             editProfile.Password = profile.Password;
-            _context.Users.Update(editProfile);
+            //_context.Users.Update(editProfile);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -48,9 +48,9 @@ namespace Application.Implementation
             var index = 1;
             while (true) //Решить проблему что гости всегда одинаковые
             {
-                if (!Guests.ToList().Contains(index))
+                if (!GemeCore.Guests.ToList().Contains(index))
                 {
-                    Guests.ToList().Add(index);
+                    GemeCore.Guests.ToList().Add(index);
                     break;
                 }
             }

@@ -1,5 +1,7 @@
+using Application;
 using Application.Implementation;
 using Application.Interface;
+using Core;
 using DB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +36,8 @@ namespace Durak
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            GemeCore.Guests = new List<int>();
+            GemeCore.Rooms = new List<Room>();
             //services.AddEntityFrameworkSqlServer();
             services.AddDbContext<DurakDbContext>(
                     options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);

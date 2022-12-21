@@ -77,5 +77,24 @@ namespace Durak.Controllers
                 return BadRequest(new { status = 400, error = ex.Message });
             }
         }
+
+        [HttpGet("{id}/come")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> ComeRoomByIDAsync(int id, string password, string player)
+        {
+            try
+            {
+                var result = await _roomRequestService.ComeRoomByIDAsync(id, password,  player);
+                return Ok(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                //Request.Body.Position = 0;
+                //var rawRequestBody = await new StreamReader(Request.Body).ReadToEndAsync();
+                //await _requestService.SetLogAsync(Request.Path.Value, rawRequestBody, ex.Message);
+                return BadRequest(new { status = 400, error = ex.Message });
+            }
+        }
     }
 }

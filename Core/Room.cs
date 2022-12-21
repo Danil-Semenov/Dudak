@@ -8,6 +8,12 @@ namespace Core
 {
     public class Room
     {
+        public int Id { get; set; }
+
+        public string Password { get; set; }
+
+        public int MaxPlayers { get; set; }
+
         public Game.Game Game { get; set; }
 
         public BaseRules Rules { get; set; }
@@ -32,7 +38,7 @@ namespace Core
 
         public int GetFreePlayerPos()
         {
-            for(var i = 0; i < 6; i++)
+            for(var i = 0; i < MaxPlayers; i++)
             {
                 var player = Players.FirstOrDefault(p=> p.PositionOnTable == i);
                 if (player != null)
@@ -46,6 +52,8 @@ namespace Core
 
         public bool AddPlayer(string player)
         {
+            if(Players.Count >= MaxPlayers)
+                return false;
             try
             {
                 Players.Add(new Player.Player()

@@ -11,8 +11,10 @@ namespace Application.Interface
     {
         Task<IEnumerable<RoomDto>> GetAllRoomsAsync(RulesDto rules);
 
-        Task<bool> CreateRoomAsync(RoomDto room);
+        Task<int> CreateRoomAsync(RoomDto room);
 
         Task<RoomDto> GetRoomByIDAsync(int id);
+
+        Task<bool> ComeRoomByIDAsync(int id, string password, string player);
     }
 }

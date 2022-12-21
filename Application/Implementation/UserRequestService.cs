@@ -32,7 +32,7 @@ namespace Application.Implementation
             return true;
         }
 
-        public async Task<bool> EditProfileAsync(UserDto profile, int id)//Решить проблему что не обновляется, хотя возвращает ответ 200
+        public async Task<bool> EditProfileAsync(UserDto profile, int id)
         {
             var editProfile = await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == id);
             _context.Users.Update(editProfile);
@@ -46,14 +46,17 @@ namespace Application.Implementation
         public async Task<UserDto> GetGuestProfileAsync()
         {
             var index = 1;
+            var list = GemeCore.Guests.ToList();
             while (true) //Решить проблему что гости всегда одинаковые
             {
-                if (!GemeCore.Guests.ToList().Contains(index))
+                if (!list.Contains(index))
                 {
-                    GemeCore.Guests.ToList().Add(index);
+                    list.Add(index);
                     break;
                 }
+                index++;
             }
+            GemeCore.Guests = list;
             return new UserDto() { Login = "guest_" + index, Password = "guest_pas" };
         }
     }

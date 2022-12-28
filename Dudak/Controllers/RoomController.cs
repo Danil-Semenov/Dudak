@@ -43,7 +43,7 @@ namespace Durak.Controllers
         [HttpPost("all")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> CreateRoomAsync(RulesDto rules)
+        public async Task<IActionResult> GetAllRoomsAsync(RulesDto rules)
         {
             try
             {
@@ -86,6 +86,25 @@ namespace Durak.Controllers
             try
             {
                 var result = await _roomRequestService.ComeRoomByIDAsync(id, password,  player);
+                return Ok(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                //Request.Body.Position = 0;
+                //var rawRequestBody = await new StreamReader(Request.Body).ReadToEndAsync();
+                //await _requestService.SetLogAsync(Request.Path.Value, rawRequestBody, ex.Message);
+                return BadRequest(new { status = 400, error = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}/escape")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> EscapeFromRoomByIDAsync(int id, string player)
+        {
+            try
+            {
+                var result = await _roomRequestService.EscapeFromRoomByIDAsync(id, player);
                 return Ok(new { result = result });
             }
             catch (Exception ex)

@@ -16,5 +16,7 @@ namespace Application.Interface
         Task<RoomDto> GetRoomByIDAsync(int id);
 
         Task<bool> ComeRoomByIDAsync(int id, string password, string player);
+
+        Task<bool> EscapeFromRoomByIDAsync(int id, string player);
     }
 }

@@ -75,5 +75,19 @@ namespace Application.Implementation
             }
             return false;
         }
+
+        public async Task<bool> EscapeFromRoomByIDAsync(int id, string player)
+        {
+            var room = GemeCore.Rooms.FirstOrDefault(r => r.Id == id);
+            if (room != null)
+            {
+                var result = room.EscapeFromRoom(player);
+                if (room.Players.Count == 0)
+                    GemeCore.Rooms.ToList().Remove(room);
+
+                return result;
+            }
+            return false;
+        }
     }
 }

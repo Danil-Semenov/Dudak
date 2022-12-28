@@ -36,7 +36,7 @@ namespace Core
             Game = new Game.Game();
         }
 
-        public int GetFreePlayerPos()
+        private int GetFreePlayerPos()
         {
             for(var i = 0; i < MaxPlayers; i++)
             {
@@ -65,6 +65,28 @@ namespace Core
                 return true;
             }
             catch(ArgumentOutOfRangeException ex)
+            {
+                return false;
+            }
+        }
+
+        public bool EscapeFromRoom(string player)
+        {
+            try
+            {
+                if (Game.IsActive)
+                {
+                    var excapePlayer = Players.First(p => p.Name == player);
+                    Players.Remove(Players.First(p => p.Name == player));
+                    return Surrender(excapePlayer.PositionOnTable);
+                }
+                else
+                {
+                    Players.Remove(Players.First(p => p.Name == player));
+                    return true;
+                }
+            }
+            catch (Exception ex)
             {
                 return false;
             }

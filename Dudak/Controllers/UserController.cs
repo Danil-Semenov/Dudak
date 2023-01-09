@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DB.Entities;
+using System.Web.Http.Results;
 
 namespace Durak.Controllers
 {
@@ -15,6 +17,7 @@ namespace Durak.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRequestService _userRequestService;
+        private readonly IUserService _userService;
         public UserController(IUserRequestService userRequestService)
         {
             _userRequestService = userRequestService;
@@ -77,5 +80,14 @@ namespace Durak.Controllers
                 return BadRequest(new { status = 400, error = ex.Message });
             }
         }
+
+        [HttpGet("сheck")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetUserByLoginAndPasswordAsync(string login, string password)
+        {
+            return Ok(new { result = await _userRequestService.IsThereSuchGuyAsync(login, password) });
+        }
+        
     }
 }

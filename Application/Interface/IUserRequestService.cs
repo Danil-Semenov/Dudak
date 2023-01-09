@@ -13,5 +13,7 @@ namespace Application.Interface
         Task<bool> EditProfileAsync(UserDto profile, int id);
 
         Task<UserDto> GetGuestProfileAsync();
+
+        Task<bool> IsThereSuchGuyAsync(string login, string password);
     }
 }

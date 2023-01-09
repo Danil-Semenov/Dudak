@@ -1,4 +1,4 @@
-﻿using Application.Interface;
+﻿ using Application.Interface;
 using DB;
 using DB.DTO;
 using DB.Mappers;
@@ -28,5 +28,6 @@ namespace Application.Implementation
         {
             return (await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Login == login && u.Password == password))?.ToDTO();
         }
+        
     }
 }

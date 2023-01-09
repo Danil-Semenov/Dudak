@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DB.Entities;
 
 namespace Durak.Controllers
 {
@@ -15,6 +16,7 @@ namespace Durak.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRequestService _userRequestService;
+        private readonly IUserService _userService;
         public UserController(IUserRequestService userRequestService)
         {
             _userRequestService = userRequestService;
@@ -77,5 +79,75 @@ namespace Durak.Controllers
                 return BadRequest(new { status = 400, error = ex.Message });
             }
         }
+
+        
+        /*
+                                   ПЕРВАЯ РЕАЛИЗАЦИЯ 
+        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetUserByLoginAndPasswordAsync(string login, string password)
+        {
+            
+                var result = await _userService.GetUserByLoginAndPasswordAsync(login,password);
+                if (result.Login == login && result.Password == password)
+                {
+                    return Ok(new { result = result });
+                }
+
+                return NotFound();
+        }
+        */
+
+        /*
+                                  ВТОРАЯ РЕАЛИЗАЦИЯ
+         
+        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetUserByLoginAndPasswordAsync(string login, string password)
+        {
+            
+            var result = await _userService.GetUserByLoginAndPasswordAsync(login,password);
+
+
+            return result == null ? NotFound() : Ok(result);
+        }
+        */
+        
+        /*
+                                  ТРЕТЬЯ РЕАЛИЗАЦИЯ
+          
+        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetUserByLoginAndPasswordAsync(string login, string password)
+        {
+            
+            var result = await _userService.GetUserByLoginAndPasswordAsync(login,password);
+            if (result is null) return BadRequest();
+            return Ok(new { result = result });
+        }
+        */
+        
+        /*
+                                ЧЕТВЕРТАЯ РЕАЛИЗАЦИЯ
+         
+        [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetUserByLoginAndPasswordAsync(string login, string password)
+        {
+            var result = await _userService.GetUserByLoginAndPasswordAsync(login,password);
+            var tuple = (true, result);
+            if (result != null)
+            {
+                return tuple;
+            }
+            return BadRequest(204);
+        }
+        */
+        
+        
     }
 }

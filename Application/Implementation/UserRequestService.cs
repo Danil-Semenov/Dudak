@@ -59,5 +59,10 @@ namespace Application.Implementation
             GemeCore.Guests = list;
             return new UserDto() { Login = "guest_" + index, Password = "guest_pas" };
         }
+
+        public async Task<bool> IsThereSuchGuyAsync(string login, string password)
+        {
+            return await _context.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Login == login && u.Password == password) != null;
+        }
     }
 }

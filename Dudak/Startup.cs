@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Durak.Hubs;
 
 namespace Durak
 {
@@ -38,7 +39,9 @@ namespace Durak
         {
             GemeCore.Guests = new List<int>();
             GemeCore.Rooms = new List<Room>();
+            //var socet = new PersonalWebSocket();
             //services.AddEntityFrameworkSqlServer();
+            services.AddSignalR();
             services.AddDbContext<DurakDbContext>(
                     options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
@@ -102,6 +105,7 @@ namespace Durak
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<GameHub>("/game");
             });
         }
     }

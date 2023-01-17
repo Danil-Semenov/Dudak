@@ -11,7 +11,7 @@ namespace DB.DTO
         public string Host { get; set; }
         public int MaxPlayers { get; set; }
         public int PlayersCount { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
         public bool IsOpen { get; set; }
         public int Admissions { get; set; }
         public RulesDto Rules { get; set; }

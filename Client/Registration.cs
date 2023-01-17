@@ -69,6 +69,7 @@ namespace Client
             }
 
         }
+
         private void Ups(string message,string caption = "Ошибка.", MessageBoxButtons buttons = MessageBoxButtons.OK)
         {
             DialogResult result;

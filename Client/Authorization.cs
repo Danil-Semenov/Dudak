@@ -57,13 +57,6 @@ namespace Client
             }
         }
 
-        private string GetToken()
-        {
-            var plainTextBytes = Encoding.UTF8.GetBytes($"{LoginTextBox.Text}:{PasswordTextBox.Text}");
-            string val = Convert.ToBase64String(plainTextBytes);
-            return "Basic " + val;
-        }
-
         private void Guest_Click(object sender, EventArgs e)
         {
             var uriService = "http://danilsemenov-001-site1.itempurl.com/api/v1/user/guest";

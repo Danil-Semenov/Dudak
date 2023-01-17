@@ -11,7 +11,7 @@ namespace DB.Schema
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("person", "public");
+            builder.ToTable("person", "dbo");
             builder.Property(p => p.Id)
                 .HasColumnName("id")
                 .HasColumnType("SERIAL");

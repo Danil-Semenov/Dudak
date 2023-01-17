@@ -38,7 +38,7 @@ namespace Durak.Controllers
                 //Request.Body.Position = 0;
                 //var rawRequestBody = await new StreamReader(Request.Body).ReadToEndAsync();
                 //await _requestService.SetLogAsync(Request.Path.Value, rawRequestBody, ex.Message);
-                return BadRequest(new { status = 400, error = ex.Message });
+                return BadRequest(new { status = 400, error = ex.ToString() });
             }
         }
 
@@ -86,8 +86,17 @@ namespace Durak.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> GetUserByLoginAndPasswordAsync(string login, string password)
         {
-            return Ok(new { result = await _userRequestService.IsThereSuchGuyAsync(login, password) });
+            try
+            {
+                return Ok(new { result = await _userRequestService.IsThereSuchGuyAsync(login, password) });
+            }
+            catch (Exception ex)
+            {
+                //Request.Body.Position = 0;
+                //var rawRequestBody = await new StreamReader(Request.Body).ReadToEndAsync();
+                //await _requestService.SetLogAsync(Request.Path.Value, rawRequestBody, ex.Message);
+                return BadRequest(new { status = 400, error = ex.ToString() });
+            }
         }
-        
     }
 }

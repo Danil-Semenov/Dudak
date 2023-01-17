@@ -43,7 +43,7 @@ namespace Durak
             //services.AddEntityFrameworkSqlServer();
             services.AddSignalR();
             services.AddDbContext<DurakDbContext>(
-                    options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+                    options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRequestService, UserRequestService>();

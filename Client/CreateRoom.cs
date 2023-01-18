@@ -30,6 +30,12 @@ namespace Client
                 Ups("Обязательное поле не заполнено!");
                 return;
             }
+            var players =Convert.ToInt32(LoginTextBox.Text);
+            if (players>6 || players<2)
+            {
+                Ups("Кол-во игроков может быть от 2 до 6!");
+                return;
+            }
             DialogResult = DialogResult.OK;
             this.Close();
         }

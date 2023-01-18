@@ -78,13 +78,16 @@ namespace Application.Implementation
 
         public async Task<bool> EscapeFromRoomByIDAsync(int id, string player)
         {
+            var list = GemeCore.Rooms.ToList();
             var room = GemeCore.Rooms.FirstOrDefault(r => r.Id == id);
             if (room != null)
             {
                 var result = room.EscapeFromRoom(player);
                 if (room.Players.Count == 0)
-                    GemeCore.Rooms.ToList().Remove(room);
-
+                {
+                    list.Remove(GemeCore.Rooms.First(r => r.Id == room.Id));
+                    GemeCore.Rooms = list;
+                }
                 return result;
             }
             return false;

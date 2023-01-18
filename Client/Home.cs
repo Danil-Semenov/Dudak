@@ -111,6 +111,7 @@ namespace Client
                     var id = Convert.ToInt32(resultString["result"]);
                     Hide();
                     var game = new Game();
+                    game.Id = id;
                     game.Show();
                 }
                 else
@@ -172,16 +173,29 @@ namespace Client
             {
                 localid = id;
             }
+            var request = "";
+            if (Convert.ToBoolean(dataGridView1[4, selectedRows.Index].Value))
+            {
+                var password = new Password();
+                if (password.ShowDialog(this) == DialogResult.OK)
+                {
+                    var pass = password.PasswordTextBox.Text;
+                    request = $"&password={pass}";
+                }
+                else
+                {
+                    return;
+                }
+            }
 
             var uriService = $"http://danilsemenov-001-site1.itempurl.com/api/v1/room/{localid}/come?player={User.Login}";
             var resultService = "";
-            //var request = $"&password={PasswordTextBox.Text}";
             var isOk = true;
             var authentication = GetToken();
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Add("Authorization", authentication);
-                var result = httpClient.GetAsync(uriService).GetAwaiter().GetResult();
+                var result = httpClient.GetAsync(uriService + request).GetAwaiter().GetResult();
                 resultService = result.Content.ReadAsStringAsync().Result;
 
                 isOk = result.StatusCode == System.Net.HttpStatusCode.OK;
@@ -194,6 +208,7 @@ namespace Client
 
                     Hide();
                     var game = new Game();
+                    game.Id = localid;
                     game.Show();
                 }
                 else

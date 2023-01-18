@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class Game
+    partial class Password
     {
         /// <summary>
         /// Required designer variable.
@@ -29,32 +29,55 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.PasswordTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(34, 20);
+            this.button1.Location = new System.Drawing.Point(104, 63);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 24);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Выйти из комнаты";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Войти";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Game
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(31, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 15);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Password";
+            // 
+            // PasswordTextBox
+            // 
+            this.PasswordTextBox.Location = new System.Drawing.Point(122, 12);
+            this.PasswordTextBox.Name = "PasswordTextBox";
+            this.PasswordTextBox.Size = new System.Drawing.Size(138, 23);
+            this.PasswordTextBox.TabIndex = 9;
+            // 
+            // Password
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(295, 98);
             this.Controls.Add(this.button1);
-            this.Name = "Game";
-            this.Text = "Game";
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.PasswordTextBox);
+            this.Name = "Password";
+            this.Text = "Password";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.TextBox PasswordTextBox;
     }
 }

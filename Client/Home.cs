@@ -26,7 +26,7 @@ namespace Client
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
 
         private void FillDataGrid()
@@ -161,7 +161,7 @@ namespace Client
             var localid = id;
             if (id == -1)
             {
-                selectedRows = dataGridView1.SelectedRows[0];
+                selectedRows = dataGridView1.SelectedRows[0]; //Если ничего не выбрано то ошибку
                 if (selectedRows == null )
                 {
                     Ups("Выбери строку!");

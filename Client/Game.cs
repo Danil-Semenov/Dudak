@@ -168,7 +168,7 @@ namespace Client
                 //Козырь
                 int trumpCardIndex = PlayerCount * 6 - 1;
                 CurrGameState.TrumpSuit = CurrGameState.Deck[trumpCardIndex].Suit;
-                Card trumpCard = CurrGameState.Deck[trumpCardIndex];
+                Card.Card trumpCard = CurrGameState.Deck[trumpCardIndex];
                 CurrGameState.Deck.RemoveAt(trumpCardIndex);
                 CurrGameState.Deck.Add(trumpCard); //Последняя карта колоды - козырь, выложить её под колоду лицом вверх
 
@@ -184,7 +184,7 @@ namespace Client
                 //Назначаем заходящего в начале игры
                 if (CurrGameState.Attacker == null)
                 {
-                    Ranks min = Ranks.Ace;
+                    eValue min = eValue.Ace;
                     foreach (Gamer gamer in CurrGameState.Gamers)
                     {
                         foreach (var card in gamer.Alignment)

@@ -6,6 +6,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace Card
 {
+    [Serializable]
     public class Card
     {
         private eFamily _suit;

@@ -108,10 +108,12 @@ namespace Client
                 {
                     var resultString = JObject.Parse(resultService);
                     var id = Convert.ToInt32(resultString["result"]);
+                    User.RoomId = id;
                     Hide();
                     var game = new Game();
-                    game.Id = id;
                     game.Show();
+                    game.startServerToolStripMenuItem_Click_1();
+                    game.Id = id;
                 }
                 else
                 {
@@ -207,8 +209,9 @@ namespace Client
 
                     Hide();
                     var game = new Game();
-                    game.Id = localid;
                     game.Show();
+                    game.ConnectToServer(localid);
+                    game.Id = localid;
 
                 }
                 else

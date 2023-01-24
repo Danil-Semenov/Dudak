@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Button takeCardsBtn;
+            this.takeCardsBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.endRoundBtn = new System.Windows.Forms.Button();
             this.IamZone = new System.Windows.Forms.GroupBox();
@@ -40,12 +40,11 @@
             this.GameField = new System.Windows.Forms.GroupBox();
             this.DeckBack = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.gameStateTb = new System.Windows.Forms.TextBox();
-            this.newGameToolStripMenuItem = new System.Windows.Forms.Button();
             this.DeckZone = new System.Windows.Forms.GroupBox();
             this.TrumpCard = new System.Windows.Forms.PictureBox();
             this.TrumpImage = new System.Windows.Forms.PictureBox();
-            takeCardsBtn = new System.Windows.Forms.Button();
+            this.gameStateTb = new System.Windows.Forms.TextBox();
+            this.newGameToolStripMenuItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DeckBack)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.DeckZone.SuspendLayout();
@@ -55,27 +54,28 @@
             // 
             // takeCardsBtn
             // 
-            takeCardsBtn.Location = new System.Drawing.Point(84, 217);
-            takeCardsBtn.Name = "takeCardsBtn";
-            takeCardsBtn.Size = new System.Drawing.Size(75, 23);
-            takeCardsBtn.TabIndex = 1;
-            takeCardsBtn.Text = "Беру";
-            takeCardsBtn.UseVisualStyleBackColor = true;
+            this.takeCardsBtn.Location = new System.Drawing.Point(72, 188);
+            this.takeCardsBtn.Name = "takeCardsBtn";
+            this.takeCardsBtn.Size = new System.Drawing.Size(64, 20);
+            this.takeCardsBtn.TabIndex = 1;
+            this.takeCardsBtn.Text = "Беру";
+            this.takeCardsBtn.UseVisualStyleBackColor = true;
+            this.takeCardsBtn.Click += new System.EventHandler(this.takeCardsBtn_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(10, 10);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 24);
+            this.button1.Size = new System.Drawing.Size(116, 21);
             this.button1.TabIndex = 0;
             this.button1.Text = "Выйти из комнаты";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // endRoundBtn
             // 
-            this.endRoundBtn.Location = new System.Drawing.Point(84, 246);
+            this.endRoundBtn.Location = new System.Drawing.Point(72, 213);
             this.endRoundBtn.Name = "endRoundBtn";
-            this.endRoundBtn.Size = new System.Drawing.Size(75, 23);
+            this.endRoundBtn.Size = new System.Drawing.Size(64, 20);
             this.endRoundBtn.TabIndex = 2;
             this.endRoundBtn.Text = "Отбой";
             this.endRoundBtn.UseVisualStyleBackColor = true;
@@ -83,72 +83,72 @@
             // 
             // IamZone
             // 
-            this.IamZone.Location = new System.Drawing.Point(308, 512);
+            this.IamZone.Location = new System.Drawing.Point(264, 444);
             this.IamZone.Name = "IamZone";
-            this.IamZone.Size = new System.Drawing.Size(445, 100);
+            this.IamZone.Size = new System.Drawing.Size(381, 87);
             this.IamZone.TabIndex = 3;
             this.IamZone.TabStop = false;
             this.IamZone.Text = "Мои карты";
             // 
             // Gamer1Zone
             // 
-            this.Gamer1Zone.Location = new System.Drawing.Point(12, 414);
+            this.Gamer1Zone.Location = new System.Drawing.Point(10, 359);
             this.Gamer1Zone.Name = "Gamer1Zone";
-            this.Gamer1Zone.Size = new System.Drawing.Size(108, 198);
+            this.Gamer1Zone.Size = new System.Drawing.Size(93, 172);
             this.Gamer1Zone.TabIndex = 4;
             this.Gamer1Zone.TabStop = false;
             this.Gamer1Zone.Text = "Игрок 1";
             // 
             // Gamer2Zone
             // 
-            this.Gamer2Zone.Location = new System.Drawing.Point(12, 79);
+            this.Gamer2Zone.Location = new System.Drawing.Point(10, 68);
             this.Gamer2Zone.Name = "Gamer2Zone";
-            this.Gamer2Zone.Size = new System.Drawing.Size(108, 198);
+            this.Gamer2Zone.Size = new System.Drawing.Size(93, 172);
             this.Gamer2Zone.TabIndex = 5;
             this.Gamer2Zone.TabStop = false;
             this.Gamer2Zone.Text = "Игрок2";
             // 
             // Gamer3Zone
             // 
-            this.Gamer3Zone.Location = new System.Drawing.Point(308, 42);
+            this.Gamer3Zone.Location = new System.Drawing.Point(264, 36);
             this.Gamer3Zone.Name = "Gamer3Zone";
-            this.Gamer3Zone.Size = new System.Drawing.Size(445, 100);
+            this.Gamer3Zone.Size = new System.Drawing.Size(381, 87);
             this.Gamer3Zone.TabIndex = 6;
             this.Gamer3Zone.TabStop = false;
             this.Gamer3Zone.Text = "Игрок 3";
             // 
             // Gamer4Zone
             // 
-            this.Gamer4Zone.Location = new System.Drawing.Point(921, 79);
+            this.Gamer4Zone.Location = new System.Drawing.Point(789, 68);
             this.Gamer4Zone.Name = "Gamer4Zone";
-            this.Gamer4Zone.Size = new System.Drawing.Size(114, 198);
+            this.Gamer4Zone.Size = new System.Drawing.Size(98, 172);
             this.Gamer4Zone.TabIndex = 7;
             this.Gamer4Zone.TabStop = false;
             this.Gamer4Zone.Text = "Игрок 4";
             // 
             // Gamer5Zone
             // 
-            this.Gamer5Zone.Location = new System.Drawing.Point(921, 414);
+            this.Gamer5Zone.Location = new System.Drawing.Point(789, 359);
             this.Gamer5Zone.Name = "Gamer5Zone";
-            this.Gamer5Zone.Size = new System.Drawing.Size(108, 198);
+            this.Gamer5Zone.Size = new System.Drawing.Size(93, 172);
             this.Gamer5Zone.TabIndex = 8;
             this.Gamer5Zone.TabStop = false;
             this.Gamer5Zone.Text = "Игрок 5";
             // 
             // GameField
             // 
-            this.GameField.Location = new System.Drawing.Point(205, 159);
+            this.GameField.Location = new System.Drawing.Point(176, 138);
             this.GameField.Name = "GameField";
-            this.GameField.Size = new System.Drawing.Size(460, 287);
+            this.GameField.Size = new System.Drawing.Size(394, 249);
             this.GameField.TabIndex = 9;
             this.GameField.TabStop = false;
             this.GameField.Text = "Стол";
             // 
             // DeckBack
             // 
-            this.DeckBack.Location = new System.Drawing.Point(59, 22);
+            this.DeckBack.Location = new System.Drawing.Point(51, 18);
             this.DeckBack.Name = "DeckBack";
-            this.DeckBack.Size = new System.Drawing.Size(162, 127);
+            this.DeckBack.Size = new System.Drawing.Size(132, 110);
             this.DeckBack.TabIndex = 10;
             this.DeckBack.TabStop = false;
             // 
@@ -157,31 +157,13 @@
             this.groupBox1.Controls.Add(this.DeckZone);
             this.groupBox1.Controls.Add(this.gameStateTb);
             this.groupBox1.Controls.Add(this.endRoundBtn);
-            this.groupBox1.Controls.Add(takeCardsBtn);
-            this.groupBox1.Location = new System.Drawing.Point(671, 159);
+            this.groupBox1.Controls.Add(this.takeCardsBtn);
+            this.groupBox1.Location = new System.Drawing.Point(575, 138);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(233, 287);
+            this.groupBox1.Size = new System.Drawing.Size(200, 249);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Игра";
-            // 
-            // gameStateTb
-            // 
-            this.gameStateTb.BackColor = System.Drawing.SystemColors.Control;
-            this.gameStateTb.Location = new System.Drawing.Point(6, 22);
-            this.gameStateTb.Name = "gameStateTb";
-            this.gameStateTb.Size = new System.Drawing.Size(221, 23);
-            this.gameStateTb.TabIndex = 11;
-            // 
-            // newGameToolStripMenuItem
-            // 
-            this.newGameToolStripMenuItem.Location = new System.Drawing.Point(153, 13);
-            this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(135, 23);
-            this.newGameToolStripMenuItem.TabIndex = 12;
-            this.newGameToolStripMenuItem.Text = "Начать игру";
-            this.newGameToolStripMenuItem.UseVisualStyleBackColor = true;
-            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.button2_Click);
             // 
             // DeckZone
             // 
@@ -189,34 +171,52 @@
             this.DeckZone.Controls.Add(this.DeckBack);
             this.DeckZone.Controls.Add(this.TrumpCard);
             this.DeckZone.Controls.Add(this.TrumpImage);
-            this.DeckZone.Location = new System.Drawing.Point(6, 62);
+            this.DeckZone.Location = new System.Drawing.Point(5, 54);
             this.DeckZone.Name = "DeckZone";
-            this.DeckZone.Size = new System.Drawing.Size(221, 149);
+            this.DeckZone.Size = new System.Drawing.Size(189, 129);
             this.DeckZone.TabIndex = 12;
             this.DeckZone.TabStop = false;
             this.DeckZone.Text = "Колода";
             // 
             // TrumpCard
             // 
-            this.TrumpCard.Location = new System.Drawing.Point(0, 22);
+            this.TrumpCard.Location = new System.Drawing.Point(6, 18);
             this.TrumpCard.Name = "TrumpCard";
-            this.TrumpCard.Size = new System.Drawing.Size(90, 127);
+            this.TrumpCard.Size = new System.Drawing.Size(76, 110);
             this.TrumpCard.TabIndex = 13;
             this.TrumpCard.TabStop = false;
             // 
             // TrumpImage
             // 
-            this.TrumpImage.Location = new System.Drawing.Point(94, 62);
+            this.TrumpImage.Location = new System.Drawing.Point(81, 54);
             this.TrumpImage.Name = "TrumpImage";
-            this.TrumpImage.Size = new System.Drawing.Size(40, 40);
+            this.TrumpImage.Size = new System.Drawing.Size(34, 35);
             this.TrumpImage.TabIndex = 14;
             this.TrumpImage.TabStop = false;
             // 
+            // gameStateTb
+            // 
+            this.gameStateTb.BackColor = System.Drawing.SystemColors.Control;
+            this.gameStateTb.Location = new System.Drawing.Point(5, 19);
+            this.gameStateTb.Name = "gameStateTb";
+            this.gameStateTb.Size = new System.Drawing.Size(190, 20);
+            this.gameStateTb.TabIndex = 11;
+            // 
+            // newGameToolStripMenuItem
+            // 
+            this.newGameToolStripMenuItem.Location = new System.Drawing.Point(131, 11);
+            this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
+            this.newGameToolStripMenuItem.TabIndex = 12;
+            this.newGameToolStripMenuItem.Text = "Начать игру";
+            this.newGameToolStripMenuItem.UseVisualStyleBackColor = true;
+            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Game
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1041, 624);
+            this.ClientSize = new System.Drawing.Size(892, 541);
             this.Controls.Add(this.newGameToolStripMenuItem);
             this.Controls.Add(this.GameField);
             this.Controls.Add(this.Gamer5Zone);
@@ -242,7 +242,6 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button takeCardsBtn;
         private System.Windows.Forms.Button endRoundBtn;
         private System.Windows.Forms.GroupBox IamZone;
         private System.Windows.Forms.GroupBox Gamer1Zone;
@@ -258,5 +257,6 @@
         private System.Windows.Forms.GroupBox DeckZone;
         private System.Windows.Forms.PictureBox TrumpCard;
         private System.Windows.Forms.PictureBox TrumpImage;
+        private System.Windows.Forms.Button takeCardsBtn;
     }
 }

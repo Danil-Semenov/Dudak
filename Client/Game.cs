@@ -63,10 +63,34 @@ namespace Client
         public Game()
         {
             InitializeComponent();
-            startServerToolStripMenuItem_Click_1();
+            //Считываем рубашки (пока одна)
+            _backsImages.Add(Pictures.back);
+            DeckBack.Image = _backsImages[0];
+
+            DeckBack.BringToFront();
+            DeckBack.BringToFront();
+
+            //Считываем лица карт
+            Array suitValues = Enum.GetValues(typeof(Card.eFamily));
+            Array rankValues = Enum.GetValues(typeof(Card.eValue));
+
+            for (int s = 0; s < suitValues.Length; s++)
+            {
+                for (int r = 0; r < rankValues.Length; r++)
+                {
+                    eFamily currSuit = (eFamily)suitValues.GetValue(s);
+                    eValue currRank = (eValue)rankValues.GetValue(r);
+
+                    string cardName = Enum.GetName(typeof(eFamily), currSuit) + "_" + Enum.GetName(typeof(eValue), currRank);
+
+                    _cardsImages.Add(cardName, (Bitmap)Pictures.ResourceManager.GetObject(cardName));
+                }
+            }
+
+            SetStyle(ControlStyles.ResizeRedraw, true);
         }
 
-        private void startServerToolStripMenuItem_Click_1()
+        public void startServerToolStripMenuItem_Click_1()
         {
             //Ищем свободный канал
             int channelPort = 8001;
@@ -76,7 +100,7 @@ namespace Client
                 try
                 {
                     // Создаем канал, который будет слушать порт
-                    ChannelServices.RegisterChannel(CreateChannel(channelPort, "tcpDurak" + channelPort), false);
+                    ChannelServices.RegisterChannel(CreateChannel(channelPort, Dns.GetHostName()), false);
                     IsChannelRegistered = false;
                 }
                 catch
@@ -85,9 +109,9 @@ namespace Client
                 }
             }
 
-            var uriService = "http://danilsemenov-001-site1.itempurl.com/api/v1/game/addchannel";
+            var uriService = $"http://danilsemenov-001-site1.itempurl.com/api/v1/game/{User.RoomId}/add";
             var resultService = "";
-            var request = $"?channel={"tcpDurak" + channelPort}&port={channelPort}";
+            var request = $"?channel={Dns.GetHostName()}&port={channelPort}";
             using (var httpClient = new HttpClient())
             {
                 var result = httpClient.GetAsync(uriService + request).GetAwaiter().GetResult();
@@ -125,12 +149,6 @@ namespace Client
             return new TcpChannel(props, cp, sp);
         }
 
-        public Game(int room)
-        {
-            InitializeComponent();
-            ConnectToServer(room);
-        }
-
         public void ConnectToServer(int room)
         {
             string serverName = "";
@@ -162,7 +180,7 @@ namespace Client
             // Получаем ссылку на объект-игру. расположенную на
             // другом компьютере (или в другом процессе)
             game = (GameCore)Activator.GetObject(typeof(GameCore),
-                  String.Format("tcp://{0}:{1}/GameObject", serverName,port));
+                  String.Format("tcp://{0}:{1}/GameObject", serverName, port));
 
             if (game.PlayerCount == 6)
             {
@@ -204,34 +222,6 @@ namespace Client
             {
                 Alignment.Clear();
             }
-        }
-
-        private void Game_Load(object sender, EventArgs e) {
-            //Считываем рубашки (пока одна)
-            _backsImages.Add(Pictures.back);
-            DeckBack.Image = _backsImages[0];
-
-            DeckBack.BringToFront();
-            DeckBack.BringToFront();
-
-            //Считываем лица карт
-            Array suitValues = Enum.GetValues(typeof(Card.eFamily));
-            Array rankValues = Enum.GetValues(typeof(Card.eValue));
-
-            for (int s = 0; s < suitValues.Length; s++)
-            {
-                for (int r = 0; r < rankValues.Length; r++)
-                {
-                    eFamily currSuit = (eFamily)suitValues.GetValue(s);
-                    eValue currRank = (eValue)rankValues.GetValue(r);
-
-                    string cardName = Enum.GetName(typeof(eFamily), currSuit) + "_" + Enum.GetName(typeof(eValue), currRank);
-
-                    _cardsImages.Add(cardName, (Bitmap)Pictures.ResourceManager.GetObject(cardName));
-                }
-            }
-
-            SetStyle(ControlStyles.ResizeRedraw, true);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -471,7 +461,7 @@ namespace Client
 
                         Card.Card cardAttack = game.CurrGameState.BoutCardsAttack[i];
                         game.CurrGameState.RemoveAttackCardToGameField(cardAttack);
-                        game.CurrGameState.AddAttackDefendedCardToGameField(cardAttack);
+                        //game.CurrGameState.AddAttackDefendedCardToGameField(cardAttack);
                         break;
                     }
                 }
@@ -881,7 +871,7 @@ namespace Client
                         BeginInvoke(new Action(() =>
                         {
                             takeCardsBtn.Enabled = false;
-                            endRoundBtn.Enabled = false;
+                            endRoundBtn.Enabled = true;
                         }));
                     }
                     if (gamer.Name == gameState.Defender.Name)
@@ -1108,6 +1098,7 @@ namespace Client
             game.ShowAllGamers(game.CurrGameState);
             game.CurrGameState.GameRun = 1;
         }
+
     }
 
     public delegate void RenewGameHandler(GameState gameState);

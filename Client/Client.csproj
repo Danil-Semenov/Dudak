@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <LangVersion>8.0</LangVersion>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>

@@ -245,7 +245,7 @@ namespace Client
                 var resultString = JObject.Parse(resultService);
                 if ((bool)resultString["result"])
                 {
-
+                    Close();
                     Hide();
                     var home = new Home();
                     home.Show();
@@ -1099,6 +1099,7 @@ namespace Client
             game.CurrGameState.GameRun = 1;
         }
 
+      
     }
 
     public delegate void RenewGameHandler(GameState gameState);

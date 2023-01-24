@@ -18,12 +18,17 @@ using System.Runtime.Serialization.Formatters;
 using static Client.Game;
 using System.Threading;
 using System.Runtime.Remoting;
+using System.Runtime.Remoting.Lifetime;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+using Newtonsoft.Json;
+using Client.DTO;
 
 namespace Client
 {
     public partial class Game : Form
     {
-        protected Game game = null;//Сама игра (либо создаётся, либо подключается)
+        protected GameCore game = null;//Сама игра (либо создаётся, либо подключается)
 
         protected Gamer gamer = null;//Игрок клиента
 
@@ -58,15 +63,125 @@ namespace Client
         public Game()
         {
             InitializeComponent();
+            startServerToolStripMenuItem_Click_1();
+        }
+
+        private void startServerToolStripMenuItem_Click_1()
+        {
+            //Ищем свободный канал
+            int channelPort = 8001;
+            bool IsChannelRegistered = true;
+            while (IsChannelRegistered)
+            {
+                try
+                {
+                    // Создаем канал, который будет слушать порт
+                    ChannelServices.RegisterChannel(CreateChannel(channelPort, "tcpDurak" + channelPort), false);
+                    IsChannelRegistered = false;
+                }
+                catch
+                {
+                    channelPort++;
+                }
+            }
+
+            var uriService = "http://danilsemenov-001-site1.itempurl.com/api/v1/game/addchannel";
+            var resultService = "";
+            var request = $"?channel={"tcpDurak" + channelPort}&port={channelPort}";
+            using (var httpClient = new HttpClient())
+            {
+                var result = httpClient.GetAsync(uriService + request).GetAwaiter().GetResult();
+                resultService = result.Content.ReadAsStringAsync().Result;
+            }
+
+            // Создаем объект-игру
+            game = new GameCore();
+
+            // Предоставляем объект-игру для вызова с других компьютеров
+            RemotingServices.Marshal(game, "GameObject");
+
+            // Входим в игру
+            game.RenewGame += OnRenewGame;
+            gamer = new Gamer(game, User.Login);
+
+            game.Connect(gamer);
+
+            newGameToolStripMenuItem.Enabled = true;//Создать игру может только сервер
+        }
+
+        TcpChannel CreateChannel(int port, string name)
+        {
+            BinaryServerFormatterSinkProvider sp = new
+                BinaryServerFormatterSinkProvider();
+            sp.TypeFilterLevel = TypeFilterLevel.Full; // Разрешаем передачу делегатов
+
+            BinaryClientFormatterSinkProvider cp = new
+                BinaryClientFormatterSinkProvider();
+
+            IDictionary props = new Hashtable();
+            props["port"] = port;
+            props["name"] = name;
+
+            return new TcpChannel(props, cp, sp);
+        }
+
+        public Game(int room)
+        {
+            InitializeComponent();
+            ConnectToServer(room);
+        }
+
+        public void ConnectToServer(int room)
+        {
+            string serverName = "";
+            int port = 0;
+            
+            var uriService = $"http://danilsemenov-001-site1.itempurl.com/api/v1/game/{room}";
+            var resultService = "";
+            using (var httpClient = new HttpClient())
+            {
+                var result = httpClient.GetAsync(uriService ).GetAwaiter().GetResult();
+                resultService = result.Content.ReadAsStringAsync().Result;
+            }
+            var resultString = JObject.Parse(resultService);
+            if (resultString!=null)
+            {
+                var server = JsonConvert.DeserializeObject<Server>(resultString["result"].ToString());
+                serverName = server.Host;
+                port = server.Port;
+            }
+            else
+            {
+                MessageBox.Show(@"Извините, ошибка подключения к игре!");
+                return;
+            }
+            // Создаем канал, который будет подключен к серверу
+            TcpChannel tcpChannel = CreateChannel(0, "tcpDurak");
+            ChannelServices.RegisterChannel(tcpChannel, false);
+
+            // Получаем ссылку на объект-игру. расположенную на
+            // другом компьютере (или в другом процессе)
+            game = (GameCore)Activator.GetObject(typeof(GameCore),
+                  String.Format("tcp://{0}:{1}/GameObject", serverName,port));
+
+            if (game.PlayerCount == 6)
+            {
+                MessageBox.Show(@"Извините, свободных мест нет!");
+                return;
+            }
+            // Входим в игру
+            game.RenewGame += OnRenewGame;
+            gamer = new Gamer(game, User.Login);
+            game.Connect(gamer);
         }
 
         public class Gamer : MarshalByRefObject
         {
-            protected Game Game { get; set; }
+            protected GameCore Game { get; set; }
             public string Name { get; set; }
             public SortedDictionary<string, Card.Card> Alignment { get; set; }
 
-            public Gamer(Game game, string name = "Gamer")
+            public Gamer(GameCore game, string name = "Gamer")
             {
                 Game = game;
                 Name = name;
@@ -1005,6 +1120,228 @@ namespace Client
         internal void SetCardsNumberIn1BoutRestriction(int p)
         {
             CardsNumberIn1BoutRestriction = p;
+        }
+    }
+
+    public class GameCore : MarshalByRefObject
+    {
+        public Dictionary<string, bool> Cards { get; set; }//Колода карт изначальная
+
+        public GameState CurrGameState { get; set; }//Текущее состояние игры
+
+        public GameConfig CurrGameConfig { get; set; }//Параметры игры, настраиваются при создании игры
+
+        public event RenewGameHandler RenewGame;//Событие обновления состояния игры
+
+        public static int NumberOfInstance;
+
+        public GameCore()
+        {
+            NumberOfInstance++;
+
+            Cards = new Dictionary<string, bool>();
+            CurrGameState = new GameState();
+            CurrGameConfig = new GameConfig();
+
+            //Конфигурирование игры (д.б. в отдельном окне)
+            CurrGameConfig.SetCardsNumberIn1BoutRestriction(6);
+
+            //Формирование колоды
+            Array suitValues = Enum.GetValues(typeof(eFamily));
+            Array rankValues = Enum.GetValues(typeof(eValue));
+
+            for (int s = 0; s < suitValues.Length; s++)
+            {
+                for (int r = 0; r < rankValues.Length; r++)
+                {
+                    eFamily currSuit = (eFamily)suitValues.GetValue(s);
+                    eValue currRank = (eValue)rankValues.GetValue(r);
+
+                    string cardName = Enum.GetName(typeof(eFamily), currSuit) + "_" + Enum.GetName(typeof(eValue), currRank);
+
+                    Cards.Add(cardName, false);
+                }
+            }
+        }
+
+        public override object InitializeLifetimeService()
+        {
+            ILease il = (ILease)base.InitializeLifetimeService();
+            il.InitialLeaseTime = TimeSpan.FromDays(1);
+            il.RenewOnCallTime = TimeSpan.FromSeconds(10);
+            return il;
+        }
+
+        public void Connect(Gamer p)
+        {
+            CurrGameState.Gamers.Add(p);
+            ShowAllGamers(CurrGameState);
+        }
+
+        public void Disconnect(Gamer p)
+        {
+            CurrGameState.Gamers.Remove(p);
+            ShowAllGamers(CurrGameState);
+        }
+
+        public void ShowAllGamers(GameState gameState)
+        {
+            if (RenewGame != null)
+                RenewGame(gameState);
+        }
+
+        public void Deal()
+        {
+            if (CurrGameState.Deck.Count > 0)
+            {
+                CurrGameState.Deck.Clear();
+            }
+
+            string[] keyStrings = Cards.Keys.ToArray();
+            foreach (string key in keyStrings)
+            {
+                Cards[key] = false;
+            }
+
+            Array suitValues = Enum.GetValues(typeof(eFamily));
+            Array rankValues = Enum.GetValues(typeof(eValue));
+
+            string cardName;
+            eFamily currSuit;
+            eValue currRank;
+
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                do
+                {
+                    currSuit =
+                      (eFamily)suitValues.GetValue(new Random((int)DateTime.Now.Ticks).Next(0, suitValues.Length));
+                    currRank =
+                      (eValue)rankValues.GetValue(new Random((int)DateTime.Now.Ticks).Next(0, rankValues.Length));
+                    cardName = Enum.GetName(typeof(eFamily), currSuit) + "_" + Enum.GetName(typeof(eValue), currRank);
+                } while (Cards[cardName]);
+
+                CurrGameState.Deck.Add(new Card.Card(
+                currSuit,
+                currRank
+                ));
+
+                Cards[cardName] = true;
+            }
+        }
+
+        public void Distribute(int gameState)
+        {
+            if (PlayerCount < 2) return;
+
+            if (gameState == 0) //Начало игры
+            {
+                foreach (Gamer gamer in CurrGameState.Gamers)
+                {
+                    gamer.AlignmentClear();
+                }
+
+                //Козырь
+                int trumpCardIndex = PlayerCount * 6 - 1;
+                CurrGameState.TrumpSuit = CurrGameState.Deck[trumpCardIndex].Suit;
+                Card.Card trumpCard = CurrGameState.Deck[trumpCardIndex];
+                CurrGameState.Deck.RemoveAt(trumpCardIndex);
+                CurrGameState.Deck.Add(trumpCard); //Последняя карта колоды - козырь, выложить её под колоду лицом вверх
+
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int k = 0; k < PlayerCount; k++)
+                    {
+                        CurrGameState.Gamers[k].AddCard(CurrGameState.Deck[0]);
+                        CurrGameState.Deck.RemoveAt(0);
+                    }
+                }
+
+                //Назначаем заходящего в начале игры
+                if (CurrGameState.Attacker == null)
+                {
+                    var min = eValue.Ace;
+                    foreach (Gamer gamer in CurrGameState.Gamers)
+                    {
+                        foreach (var card in gamer.Alignment)
+                        {
+                            if (card.Value.Suit == CurrGameState.TrumpSuit
+                                && card.Value.Rank < min)
+                            {
+                                CurrGameState.Attacker = gamer;
+                                int attackerIndex = CurrGameState.Gamers.IndexOf(gamer);
+                                //Назначаем отбивающего
+                                int defenderIndex = (attackerIndex + 1) % PlayerCount;
+
+                                CurrGameState.Defender = CurrGameState.Gamers[defenderIndex];
+                                min = card.Value.Rank;
+                            }
+                        }
+                        if (min == eValue.Six) break; //Чуть ускорим
+                    }
+                    //Если козырей ни у кого нет
+                    if (CurrGameState.Attacker == null)
+                    {
+                        CurrGameState.Attacker = CurrGameState.Gamers[0];
+                        CurrGameState.Defender = CurrGameState.Gamers[1];
+                    }
+                }
+            }
+            else
+            {
+                for (int k = 0; k < PlayerCount; k++)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (CurrGameState.Deck.Count == 0)
+                            break;
+                        if (CurrGameState.Gamers[k].Alignment.Count >= 6)
+                        {
+                            continue;
+                        }
+                        CurrGameState.Gamers[k].AddCard(CurrGameState.Deck[0]);
+                        CurrGameState.Deck.RemoveAt(0);
+                    }
+                    if (CurrGameState.Deck.Count == 0)
+                        break;
+                }
+            }
+        }
+
+        public void Check()
+        {
+            int nGamersWithCards = 0;
+            string loserName = String.Empty;
+            foreach (Gamer gamer1 in CurrGameState.Gamers)
+            {
+                if (gamer1.Alignment.Count > 0)
+                {
+                    loserName = gamer1.Name;
+                    nGamersWithCards++;
+                }
+            }
+            if (nGamersWithCards <= 1)
+            {
+                if (nGamersWithCards == 1)
+                {
+                    CurrGameState.GameStateMessage =
+                      loserName + @" - дурень. Новая игра начнётся через 30 секунд. Если сервер не начнёт её раньше.";
+                }
+                else if (nGamersWithCards == 0)
+                {
+                    CurrGameState.GameStateMessage =
+                      @"Ничья! Новая игра начнётся через 30 секунд. Если сервер не начнёт её раньше.";
+                }
+                CurrGameState.GameRun = 2;
+            }
+        }
+
+        public int PlayerCount
+        {
+            get
+            {
+                return CurrGameState.Gamers.Count;
+            }
         }
     }
 

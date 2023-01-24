@@ -1,6 +1,4 @@
 ﻿using Card;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -17,18 +15,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters;
-using static Microsoft.EntityFrameworkCore.Internal.DbContextPool<TContext>;
 using static Client.Game;
-
+using System.Threading;
+using System.Runtime.Remoting;
 
 namespace Client
 {
     public partial class Game : Form
     {
         protected Game game = null;//Сама игра (либо создаётся, либо подключается)
+
         protected Gamer gamer = null;//Игрок клиента
 
         private const int _cardWidth = 80;//Ширина карты
+
         private const int _cardHeight = 100;//Высота карты
 
         private List<Bitmap> _backsImages = new List<Bitmap>();//Рубашки
@@ -47,11 +47,11 @@ namespace Client
 
         private Bitmap[] _suitsImages =
         {
-      Pictures.Diamonds,
-      Pictures.Clubs,
-      Pictures.Hearts,
-      Pictures.Spides
-    };
+            Pictures.Diamonds,
+            Pictures.Clubs,
+            Pictures.Hearts,
+            Pictures.Spides
+        };
 
         public int Id { get; set; }
 
@@ -59,6 +59,7 @@ namespace Client
         {
             InitializeComponent();
         }
+
         public class Gamer : MarshalByRefObject
         {
             protected Game Game { get; set; }
@@ -89,7 +90,8 @@ namespace Client
                 Alignment.Clear();
             }
         }
-            private void Game_Load(object sender, EventArgs e) {
+
+        private void Game_Load(object sender, EventArgs e) {
             //Считываем рубашки (пока одна)
             _backsImages.Add(Pictures.back);
             DeckBack.Image = _backsImages[0];
@@ -307,7 +309,6 @@ namespace Client
                 Cards[cardName] = true;
             }
         }
-
 
         public void Connect(Gamer p)
         {
@@ -912,6 +913,7 @@ namespace Client
                 BoutCardsAttackDefended.Clear();
             }
         }
+
         private void takeCardsBtn_Click(object sender, EventArgs e)
         {
             foreach (Card.Card card in game.CurrGameState.GetAllCardsOnGameField())
@@ -947,6 +949,7 @@ namespace Client
         {
             NewRound();
         }
+
         void NewRound()
         {
             game.CurrGameState.BoutCardsClear();
@@ -977,6 +980,7 @@ namespace Client
         {
             NewGame();
         }
+
         void NewGame()
         {
             game.CurrGameState.Attacker = null;
@@ -992,6 +996,7 @@ namespace Client
     }
 
     public delegate void RenewGameHandler(GameState gameState);
+
     public struct GameConfig
     {
         public int CardsNumberIn1BoutRestriction { get; set; }//Ограничение на количество карт в круге

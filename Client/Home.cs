@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
@@ -94,7 +93,7 @@ namespace Client
                 //var request = $"&password={PasswordTextBox.Text}";
                 var isOk = true;
                 var authentication = GetToken();
-                var inParams = new RoomDto() { Host = User.Login, MaxPlayers =Convert.ToInt32(maxplayers),Password = string.IsNullOrEmpty(password)? null : password };
+                var inParams = new RoomDto() { Host = User.Login, MaxPlayers =Convert.ToInt32(maxplayers),Password = string.IsNullOrEmpty(password) ? null : password };
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", authentication);

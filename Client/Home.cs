@@ -210,6 +210,7 @@ namespace Client
                     var game = new Game();
                     game.Id = localid;
                     game.Show();
+
                 }
                 else
                 {

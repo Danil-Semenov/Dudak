@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             this.takeCardsBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.endRoundBtn = new System.Windows.Forms.Button();
@@ -84,18 +85,18 @@
             // 
             // IamZone
             // 
-            this.IamZone.Location = new System.Drawing.Point(382, 493);
+            this.IamZone.Location = new System.Drawing.Point(224, 493);
             this.IamZone.Name = "IamZone";
-            this.IamZone.Size = new System.Drawing.Size(713, 177);
+            this.IamZone.Size = new System.Drawing.Size(617, 118);
             this.IamZone.TabIndex = 3;
             this.IamZone.TabStop = false;
             this.IamZone.Text = "Мои карты";
             // 
             // Gamer1Zone
             // 
-            this.Gamer1Zone.Location = new System.Drawing.Point(12, 363);
+            this.Gamer1Zone.Location = new System.Drawing.Point(12, 324);
             this.Gamer1Zone.Name = "Gamer1Zone";
-            this.Gamer1Zone.Size = new System.Drawing.Size(177, 307);
+            this.Gamer1Zone.Size = new System.Drawing.Size(151, 268);
             this.Gamer1Zone.TabIndex = 4;
             this.Gamer1Zone.TabStop = false;
             this.Gamer1Zone.Text = "Игрок 1";
@@ -105,34 +106,34 @@
             this.Gamer2Zone.BackColor = System.Drawing.Color.SaddleBrown;
             this.Gamer2Zone.Location = new System.Drawing.Point(10, 37);
             this.Gamer2Zone.Name = "Gamer2Zone";
-            this.Gamer2Zone.Size = new System.Drawing.Size(177, 307);
+            this.Gamer2Zone.Size = new System.Drawing.Size(151, 267);
             this.Gamer2Zone.TabIndex = 5;
             this.Gamer2Zone.TabStop = false;
             this.Gamer2Zone.Text = "Игрок2";
             // 
             // Gamer3Zone
             // 
-            this.Gamer3Zone.Location = new System.Drawing.Point(382, 10);
+            this.Gamer3Zone.Location = new System.Drawing.Point(224, 37);
             this.Gamer3Zone.Name = "Gamer3Zone";
-            this.Gamer3Zone.Size = new System.Drawing.Size(713, 120);
+            this.Gamer3Zone.Size = new System.Drawing.Size(679, 95);
             this.Gamer3Zone.TabIndex = 6;
             this.Gamer3Zone.TabStop = false;
             this.Gamer3Zone.Text = "Игрок 3";
             // 
             // Gamer4Zone
             // 
-            this.Gamer4Zone.Location = new System.Drawing.Point(1251, 37);
+            this.Gamer4Zone.Location = new System.Drawing.Point(966, 42);
             this.Gamer4Zone.Name = "Gamer4Zone";
-            this.Gamer4Zone.Size = new System.Drawing.Size(175, 307);
+            this.Gamer4Zone.Size = new System.Drawing.Size(149, 262);
             this.Gamer4Zone.TabIndex = 7;
             this.Gamer4Zone.TabStop = false;
             this.Gamer4Zone.Text = "Игрок 4";
             // 
             // Gamer5Zone
             // 
-            this.Gamer5Zone.Location = new System.Drawing.Point(1249, 363);
+            this.Gamer5Zone.Location = new System.Drawing.Point(966, 324);
             this.Gamer5Zone.Name = "Gamer5Zone";
-            this.Gamer5Zone.Size = new System.Drawing.Size(177, 307);
+            this.Gamer5Zone.Size = new System.Drawing.Size(149, 262);
             this.Gamer5Zone.TabIndex = 8;
             this.Gamer5Zone.TabStop = false;
             this.Gamer5Zone.Text = "Игрок 5";
@@ -150,9 +151,9 @@
             // 
             this.groupBox1.Controls.Add(this.DeckZone);
             this.groupBox1.Controls.Add(this.gameStateTb);
-            this.groupBox1.Location = new System.Drawing.Point(726, 136);
+            this.groupBox1.Location = new System.Drawing.Point(726, 138);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(517, 351);
+            this.groupBox1.Size = new System.Drawing.Size(211, 349);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Игра";
@@ -167,7 +168,7 @@
             this.DeckZone.Controls.Add(this.takeCardsBtn);
             this.DeckZone.Location = new System.Drawing.Point(6, 45);
             this.DeckZone.Name = "DeckZone";
-            this.DeckZone.Size = new System.Drawing.Size(414, 300);
+            this.DeckZone.Size = new System.Drawing.Size(199, 300);
             this.DeckZone.TabIndex = 12;
             this.DeckZone.TabStop = false;
             this.DeckZone.Text = "Колода";
@@ -176,7 +177,7 @@
             // 
             this.DeckBack.Location = new System.Drawing.Point(139, 10);
             this.DeckBack.Name = "DeckBack";
-            this.DeckBack.Size = new System.Drawing.Size(269, 284);
+            this.DeckBack.Size = new System.Drawing.Size(58, 284);
             this.DeckBack.TabIndex = 10;
             this.DeckBack.TabStop = false;
             // 
@@ -192,7 +193,7 @@
             // 
             this.TrumpImage.Location = new System.Drawing.Point(79, 10);
             this.TrumpImage.Name = "TrumpImage";
-            this.TrumpImage.Size = new System.Drawing.Size(295, 284);
+            this.TrumpImage.Size = new System.Drawing.Size(118, 284);
             this.TrumpImage.TabIndex = 14;
             this.TrumpImage.TabStop = false;
             // 
@@ -201,7 +202,7 @@
             this.gameStateTb.BackColor = System.Drawing.SystemColors.Control;
             this.gameStateTb.Location = new System.Drawing.Point(6, 19);
             this.gameStateTb.Name = "gameStateTb";
-            this.gameStateTb.Size = new System.Drawing.Size(505, 20);
+            this.gameStateTb.Size = new System.Drawing.Size(205, 20);
             this.gameStateTb.TabIndex = 11;
             // 
             // newGameToolStripMenuItem
@@ -219,12 +220,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SaddleBrown;
-            this.BackgroundImage = global::Client.Pictures.cardWallpaper;
-            this.ClientSize = new System.Drawing.Size(1438, 706);
-            this.Controls.Add(this.newGameToolStripMenuItem);
-            this.Controls.Add(this.GameField);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(1129, 637);
             this.Controls.Add(this.Gamer5Zone);
             this.Controls.Add(this.Gamer4Zone);
+            this.Controls.Add(this.newGameToolStripMenuItem);
+            this.Controls.Add(this.GameField);
             this.Controls.Add(this.Gamer3Zone);
             this.Controls.Add(this.Gamer2Zone);
             this.Controls.Add(this.Gamer1Zone);

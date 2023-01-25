@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Authorization));
             this.LoginTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,41 +41,41 @@
             // 
             // LoginTextBox
             // 
-            this.LoginTextBox.Location = new System.Drawing.Point(104, 227);
+            this.LoginTextBox.Location = new System.Drawing.Point(89, 197);
             this.LoginTextBox.Name = "LoginTextBox";
-            this.LoginTextBox.Size = new System.Drawing.Size(165, 23);
+            this.LoginTextBox.Size = new System.Drawing.Size(142, 20);
             this.LoginTextBox.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 230);
+            this.label1.Location = new System.Drawing.Point(30, 200);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 15);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Login";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(45, 280);
+            this.label2.Location = new System.Drawing.Point(30, 243);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 15);
+            this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Password";
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(104, 277);
+            this.PasswordTextBox.Location = new System.Drawing.Point(89, 240);
             this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(165, 23);
+            this.PasswordTextBox.Size = new System.Drawing.Size(142, 20);
             this.PasswordTextBox.TabIndex = 2;
             // 
             // Login
             // 
-            this.Login.Location = new System.Drawing.Point(104, 344);
+            this.Login.Location = new System.Drawing.Point(89, 298);
             this.Login.Name = "Login";
-            this.Login.Size = new System.Drawing.Size(75, 23);
+            this.Login.Size = new System.Drawing.Size(64, 20);
             this.Login.TabIndex = 4;
             this.Login.Text = "Login";
             this.Login.UseVisualStyleBackColor = true;
@@ -82,9 +83,9 @@
             // 
             // Guest
             // 
-            this.Guest.Location = new System.Drawing.Point(45, 415);
+            this.Guest.Location = new System.Drawing.Point(39, 360);
             this.Guest.Name = "Guest";
-            this.Guest.Size = new System.Drawing.Size(185, 23);
+            this.Guest.Size = new System.Drawing.Size(159, 20);
             this.Guest.TabIndex = 5;
             this.Guest.Text = "Продолжить как гость";
             this.Guest.UseVisualStyleBackColor = true;
@@ -95,17 +96,17 @@
             this.Error.AutoSize = true;
             this.Error.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Error.ForeColor = System.Drawing.Color.Red;
-            this.Error.Location = new System.Drawing.Point(45, 113);
+            this.Error.Location = new System.Drawing.Point(39, 98);
             this.Error.Name = "Error";
-            this.Error.Size = new System.Drawing.Size(0, 15);
+            this.Error.Size = new System.Drawing.Size(0, 13);
             this.Error.TabIndex = 6;
             this.Error.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(70, 386);
+            this.button1.Location = new System.Drawing.Point(60, 335);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(138, 23);
+            this.button1.Size = new System.Drawing.Size(122, 20);
             this.button1.TabIndex = 7;
             this.button1.Text = "Зарегистрироваться";
             this.button1.UseVisualStyleBackColor = true;
@@ -113,9 +114,10 @@
             // 
             // Authorization
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 450);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(249, 390);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Error);
             this.Controls.Add(this.Guest);

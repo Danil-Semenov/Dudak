@@ -32,9 +32,9 @@ namespace Client
 
         protected Gamer gamer = null;//Игрок клиента
 
-        private const int _cardWidth = 80;//Ширина карты
+        private const int _cardWidth = 64;//Ширина карты
 
-        private const int _cardHeight = 100;//Высота карты
+        private const int _cardHeight = 80;//Высота карты
 
         private List<Bitmap> _backsImages = new List<Bitmap>();//Рубашки
 

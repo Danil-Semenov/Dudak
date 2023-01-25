@@ -90,6 +90,11 @@ namespace Client
             SetStyle(ControlStyles.ResizeRedraw, true);
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         public void startServerToolStripMenuItem_Click_1()
         {
             //Ищем свободный канал
@@ -226,6 +231,21 @@ namespace Client
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (game != null)
+            {
+                // Подключены к игре
+                if (!RemotingServices.IsTransparentProxy(game)) // Мы на сервере
+                    if (game.PlayerCount > 1)
+                    {
+                        // Кроме игрока на сервере
+                        // другие есть клиенты
+                        MessageBox.Show(@"Вы не можете отключиться, когда подключены пользователи!");
+                        return;
+                    }
+                game.RenewGame -= OnRenewGame; // Отменяем подписку на события
+                                               // Выходим из игры
+                game.Disconnect(gamer);
+            }
             var uriService = $"http://danilsemenov-001-site1.itempurl.com/api/v1/room/{Id}/escape?player={User.Login}";
             var resultService = "";
             //var request = $"&password={PasswordTextBox.Text}";
@@ -245,7 +265,6 @@ namespace Client
                 var resultString = JObject.Parse(resultService);
                 if ((bool)resultString["result"])
                 {
-                    Close();
                     Hide();
                     var home = new Home();
                     home.Show();
@@ -461,7 +480,7 @@ namespace Client
 
                         Card.Card cardAttack = game.CurrGameState.BoutCardsAttack[i];
                         game.CurrGameState.RemoveAttackCardToGameField(cardAttack);
-                        //game.CurrGameState.AddAttackDefendedCardToGameField(cardAttack);
+                        game.CurrGameState.AddAttackDefendedCardToGameField(cardAttack);
                         break;
                     }
                 }
@@ -964,7 +983,7 @@ namespace Client
 
             public void RemoveAttackCardToGameField(Card.Card card)
             {
-                BoutCardsAttack.Remove(card);
+                BoutCardsAttack.Remove(BoutCardsAttack.FirstOrDefault( c=> c.Rank == card.Rank && c.Suit == card.Suit));
             }
 
             public void InsertAttackCardToGameField(int i, Card.Card card)

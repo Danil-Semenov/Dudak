@@ -196,6 +196,7 @@ namespace Client
             game.RenewGame += OnRenewGame;
             gamer = new Gamer(game, User.Login);
             game.Connect(gamer);
+            newGameToolStripMenuItem.Visible = false;
         }
 
         public class Gamer : MarshalByRefObject
@@ -862,8 +863,8 @@ namespace Client
             //Регулируем кнопки "Беру" и "Отбой"
             if (gameState.Attacker != null)
             {
-                if (gameState.GetCountCardsOnGameField() != 0
-                  && gameState.GetCountAttackCardsOnGameField() == 0)
+                if (gameState.GetCountCardsOnGameField() != 0 // Карты захода + Карты защиты + Карты отбитые
+                  && gameState.GetCountAttackCardsOnGameField() == 0) //Карты захода
                 {
                     if (gamer.Name == gameState.Attacker.Name)
                     {
@@ -877,20 +878,20 @@ namespace Client
                     {
                         BeginInvoke(new Action(() =>
                         {
-                            takeCardsBtn.Enabled = true;
+                            takeCardsBtn.Enabled = false;
                             endRoundBtn.Enabled = false;
                         }));
                     }
                 }
-                else if (gameState.GetCountCardsOnGameField() != 0
-                  && gameState.GetCountAttackCardsOnGameField() != 0)
+                else if (gameState.GetCountCardsOnGameField() != 0 // Карты захода + Карты защиты + Карты отбитые
+                  && gameState.GetCountAttackCardsOnGameField() != 0) //Карты захода
                 {
                     if (gamer.Name == gameState.Attacker.Name)
                     {
                         BeginInvoke(new Action(() =>
                         {
                             takeCardsBtn.Enabled = false;
-                            endRoundBtn.Enabled = true;
+                            endRoundBtn.Enabled = false;
                         }));
                     }
                     if (gamer.Name == gameState.Defender.Name)
